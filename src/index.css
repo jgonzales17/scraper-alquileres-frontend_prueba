@@ -92,7 +92,6 @@ body {
   overflow: hidden;
 
   width: 70%; /* 👈 esto hace que ocupe el 70% */
-  max-width: 1200px; /* opcional: evita que sea demasiado grande en pantallas grandes */
 }
 
 
