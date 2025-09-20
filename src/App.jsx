@@ -151,7 +151,6 @@ export default function App() {
             <Home size={28} />
             Scraper de Alquileres | J
           </h1>
-          <p>Encuentra tu departamento ideal en Miraflores, San Isidro, Surco y más — ¡comparando múltiples portales!</p>
         </div>
       </header>
 
