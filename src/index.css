@@ -84,6 +84,7 @@ body {
 .search-section {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
+  width: 70vw; /* 70% del ancho de la pantalla completa */
   margin: 2rem auto;
   border-radius: 20px;
   padding: 2.5rem;
@@ -91,7 +92,6 @@ body {
   position: relative;
   overflow: hidden;
 
-  width: 70%; /* 👈 esto hace que ocupe el 70% */
 }
 
 
