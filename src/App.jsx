@@ -168,154 +168,156 @@ export default function App() {
 
       <div className="container">
         {/* Sección de búsqueda con fondo degradado */}
-        <section className="search-section">
-          <h1 className="search-title">Encuentra tu hogar ideal</h1>
+        <section className="search-section-full">
+          <div className="search-container">
+            <h1 className="search-title">Encuentra tu hogar ideal</h1>
+            
+            {/* Búsqueda rápida */}
+            {(trending.length > 0 || recents.length > 0) && (
+              <div className="filters">
+                {trending.length > 0 && (
+                  <div className="trend-block">
+                    <h3 className="filter-title">Búsquedas populares</h3>
+                    <div className="chip-wrap">
+                      {trending.map((t, i) => (
+                        <button
+                          key={`t-${i}`}
+                          className="filter-tag"
+                          onClick={() => applyQuickSearch(t)}
+                        >
+                          {t.zona}{t.dormitorios && ` · ${t.dormitorios} hab`}{t.banos && ` · ${t.banos} baños`}
+                          {(t.price_min || t.price_max) && ` · S/ ${t.price_min || 0}–${t.price_max || '∞'}`}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
-          {/* Búsquedas rápidas */}
-          {(trending.length > 0 || recents.length > 0) && (
-            <section className="filters">
-              {trending.length > 0 && (
-                <div className="trend-block">
-                  <h3 className="filter-title">Búsquedas populares</h3>
-                  <div className="chip-wrap">
-                    {trending.map((t, i) => (
+                {recents.length > 0 && (
+                  <div className="trend-block">
+                    <div className="trend-head">
+                      <h3 className="filter-title">Tus últimas búsquedas</h3>
                       <button
-                        key={`t-${i}`}
-                        className="filter-tag"
-                        onClick={() => applyQuickSearch(t)}
+                        className="filter-tag clear"
+                        onClick={clearRecents}
                       >
-                        {t.zona}{t.dormitorios && ` · ${t.dormitorios} hab`}{t.banos && ` · ${t.banos} baños`}
-                        {(t.price_min || t.price_max) && ` · S/ ${t.price_min || 0}–${t.price_max || '∞'}`}
+                        <X size={14} /> Limpiar
                       </button>
-                    ))}
+                    </div>
+                    <div className="chip-wrap">
+                      {recents.map((r, i) => (
+                        <button
+                          key={`r-${i}`}
+                          className="filter-tag"
+                          onClick={() => applyQuickSearch(r)}
+                        >
+                          {r.zona}{r.dormitorios && ` · ${r.dormitorios} hab`}{r.banos && ` · ${r.banos} baños`}
+                          {(r.price_min || r.price_max) && ` · S/ ${r.price_min || 0}–${r.price_max || '∞'}`}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+            )}
 
-              {recents.length > 0 && (
-                <div className="trend-block">
-                  <div className="trend-head">
-                    <h3 className="filter-title">Tus últimas búsquedas</h3>
-                    <button
-                      className="filter-tag clear"
-                      onClick={clearRecents}
-                    >
-                      <X size={14} /> Limpiar
-                    </button>
-                  </div>
-                  <div className="chip-wrap">
-                    {recents.map((r, i) => (
-                      <button
-                        key={`r-${i}`}
-                        className="filter-tag"
-                        onClick={() => applyQuickSearch(r)}
-                      >
-                        {r.zona}{r.dormitorios && ` · ${r.dormitorios} hab`}{r.banos && ` · ${r.banos} baños`}
-                        {(r.price_min || r.price_max) && ` · S/ ${r.price_min || 0}–${r.price_max || '∞'}`}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </section>
-          )}
-
-          {/* Formulario de búsqueda */}
-          <form onSubmit={handleSearch} className="search-form" role="search">
-            <div className="search-group">
-              <label htmlFor="zona">Zona</label>
-              <input
-                type="text"
-                id="zona"
-                name="zona"
-                value={searchData.zona}
-                onChange={handleInputChange}
-                placeholder="Ej: Miraflores, San Isidro, Barranco..."
-                required
-                className="search-input"
-              />
-            </div>
-
-            <div className="search-group">
-              <label htmlFor="dormitorios">Dormitorios</label>
-              <select
-                id="dormitorios"
-                name="dormitorios"
-                value={searchData.dormitorios}
-                onChange={handleInputChange}
-                className="search-select"
-              >
-                <option value="">Cualquier cantidad</option>
-                <option value="1">1 dormitorio</option>
-                <option value="2">2 dormitorios</option>
-                <option value="3">3 dormitorios</option>
-                <option value="4">4+ dormitorios</option>
-              </select>
-            </div>
-
-            <div className="search-group">
-              <label htmlFor="banos">Baños</label>
-              <select
-                id="banos"
-                name="banos"
-                value={searchData.banos}
-                onChange={handleInputChange}
-                className="search-select"
-              >
-                <option value="">Cualquier cantidad</option>
-                <option value="1">1 baño</option>
-                <option value="2">2 baños</option>
-                <option value="3">3+ baños</option>
-              </select>
-            </div>
-
-            <div className="search-group">
-              <label>Precio (S/)</label>
-              <div className="price-group">
+            {/* Formulario */}
+            <form onSubmit={handleSearch} className="search-form" role="search">
+              <div className="search-group">
+                <label htmlFor="zona">Zona</label>
                 <input
-                  type="number"
-                  id="price_min"
-                  name="price_min"
-                  value={searchData.price_min}
+                  type="text"
+                  id="zona"
+                  name="zona"
+                  value={searchData.zona}
                   onChange={handleInputChange}
-                  placeholder="Mínimo"
-                  min="0"
-                  className="search-input"
-                />
-                <input
-                  type="number"
-                  id="price_max"
-                  name="price_max"
-                  value={searchData.price_max}
-                  onChange={handleInputChange}
-                  placeholder="Máximo"
-                  min="0"
+                  placeholder="Ej: Miraflores, San Isidro, Barranco..."
+                  required
                   className="search-input"
                 />
               </div>
-            </div>
 
-            <div className="search-group" style={{ gridColumn: '1 / -1' }}>
-              <label htmlFor="palabras_clave">Palabras clave</label>
-              <input
-                type="text"
-                id="palabras_clave"
-                name="palabras_clave"
-                value={searchData.palabras_clave}
-                onChange={handleInputChange}
-                placeholder="Ej: piscina, gimnasio, amoblado..."
-                className="search-input"
-              />
-            </div>
+              <div className="search-group">
+                <label htmlFor="dormitorios">Dormitorios</label>
+                <select
+                  id="dormitorios"
+                  name="dormitorios"
+                  value={searchData.dormitorios}
+                  onChange={handleInputChange}
+                  className="search-select"
+                >
+                  <option value="">Cualquier cantidad</option>
+                  <option value="1">1 dormitorio</option>
+                  <option value="2">2 dormitorios</option>
+                  <option value="3">3 dormitorios</option>
+                  <option value="4">4+ dormitorios</option>
+                </select>
+              </div>
 
-            <button
-              type="submit"
-              className="search-btn"
-              disabled={loading || !searchData.zona.trim()}
-            >
-              <Search size={20} /> {loading ? 'Buscando...' : 'Buscar Propiedades'}
-            </button>
-          </form>
+              <div className="search-group">
+                <label htmlFor="banos">Baños</label>
+                <select
+                  id="banos"
+                  name="banos"
+                  value={searchData.banos}
+                  onChange={handleInputChange}
+                  className="search-select"
+                >
+                  <option value="">Cualquier cantidad</option>
+                  <option value="1">1 baño</option>
+                  <option value="2">2 baños</option>
+                  <option value="3">3+ baños</option>
+                </select>
+              </div>
+
+              <div className="search-group">
+                <label>Precio (S/)</label>
+                <div className="price-group">
+                  <input
+                    type="number"
+                    id="price_min"
+                    name="price_min"
+                    value={searchData.price_min}
+                    onChange={handleInputChange}
+                    placeholder="Mínimo"
+                    min="0"
+                    className="search-input"
+                  />
+                  <input
+                    type="number"
+                    id="price_max"
+                    name="price_max"
+                    value={searchData.price_max}
+                    onChange={handleInputChange}
+                    placeholder="Máximo"
+                    min="0"
+                    className="search-input"
+                  />
+                </div>
+              </div>
+
+              <div className="search-group" style={{ gridColumn: '1 / -1' }}>
+                <label htmlFor="palabras_clave">Palabras clave</label>
+                <input
+                  type="text"
+                  id="palabras_clave"
+                  name="palabras_clave"
+                  value={searchData.palabras_clave}
+                  onChange={handleInputChange}
+                  placeholder="Ej: piscina, gimnasio, amoblado..."
+                  className="search-input"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="search-btn"
+                disabled={loading || !searchData.zona.trim()}
+              >
+                <Search size={20} /> {loading ? 'Buscando...' : 'Buscar Propiedades'}
+              </button>
+            </form>
+          </div>
         </section>
 
         {/* Sección de propiedades */}
