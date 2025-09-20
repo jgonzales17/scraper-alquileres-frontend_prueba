@@ -90,7 +90,11 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+
+  width: 70%; /* 👈 esto hace que ocupe el 70% */
+  max-width: 1200px; /* opcional: evita que sea demasiado grande en pantallas grandes */
 }
+
 
 .search-section::before {
   content: '';
@@ -735,10 +739,9 @@ body {
   }
 
   .search-section {
-    margin: 2rem auto;
-    padding: 1.5rem;
-    border-radius: 15px;
+    width: 90%;
   }
+
 
   .search-title {
     font-size: 1.5rem;
