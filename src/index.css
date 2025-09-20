@@ -80,35 +80,7 @@ body {
   color: #4facfe;
 }
 
-/* =========================================
-   SEARCH SECTION
-========================================= */
 
-.search-section {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  margin: 4rem auto 2rem;
-  border-radius: 20px;
-  padding: 2.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
-}
-
-.search-section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.15;
-  z-index: -1;
-}
 
 .search-title {
   text-align: center;
@@ -730,11 +702,6 @@ body {
     padding: 0 10px;
   }
 
-  .search-section {
-    margin: 2rem auto;
-    padding: 1.5rem;
-    border-radius: 15px;
-  }
 
   .search-title {
     font-size: 1.5rem;
@@ -782,21 +749,7 @@ body {
 .property-card:nth-child(5) { animation-delay: 0.5s; }
 .property-card:nth-child(6) { animation-delay: 0.6s; }
 
-/* =========================================
-   SEARCH SECTION FULL (fondo completo)
-========================================= */
 
-.search-section-full {
-  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 600px; /* Ajusta según necesidad */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 80px; /* Para evitar superposición con header */
-}
 
 .search-container {
   background-color: white;
@@ -847,4 +800,57 @@ body {
   padding: 0.2rem 0.8rem;
   border-radius: 12px;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================
+   SEARCH SECTION FULL - FONDO COMPLETO
+========================================= */
+
+.search-section-full {
+  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.search-container {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.search-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00bfff;
+}
+
+/* =========================================
+   PROPERTIES SECTION TITLE - BLANCO PURO
+========================================= */
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: none;
+  border: none;
+  background: none;
+  padding: 0;
 }

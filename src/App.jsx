@@ -168,11 +168,12 @@ export default function App() {
 
       <div className="container">
         {/* Sección de búsqueda con fondo degradado */}
+
         <section className="search-section-full">
           <div className="search-container">
             <h1 className="search-title">Encuentra tu hogar ideal</h1>
-            
-            {/* Búsqueda rápida */}
+
+            {/* Búsquedas rápidas */}
             {(trending.length > 0 || recents.length > 0) && (
               <div className="filters">
                 {trending.length > 0 && (
