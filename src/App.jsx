@@ -172,55 +172,6 @@ export default function App() {
           <div className="search-form-container">
             <h1 className="search-title">Encuentra tu hogar ideal</h1>
 
-            {/* Búsquedas rápidas */}
-            {(trending.length > 0 || recents.length > 0) && (
-              <div className="filters">
-                {trending.length > 0 && (
-                  <div className="trend-block">
-                    <h3 className="filter-title">Búsquedas populares</h3>
-                    <div className="chip-wrap">
-                      {trending.map((t, i) => (
-                        <button
-                          key={`t-${i}`}
-                          className="filter-tag"
-                          onClick={() => applyQuickSearch(t)}
-                        >
-                          {t.zona}{t.dormitorios && ` · ${t.dormitorios} hab`}{t.banos && ` · ${t.banos} baños`}
-                          {(t.price_min || t.price_max) && ` · S/ ${t.price_min || 0}–${t.price_max || '∞'}`}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {recents.length > 0 && (
-                  <div className="trend-block">
-                    <div className="trend-head">
-                      <h3 className="filter-title">Tus últimas búsquedas</h3>
-                      <button
-                        className="filter-tag clear"
-                        onClick={clearRecents}
-                      >
-                        <X size={14} /> Limpiar
-                      </button>
-                    </div>
-                    <div className="chip-wrap">
-                      {recents.map((r, i) => (
-                        <button
-                          key={`r-${i}`}
-                          className="filter-tag"
-                          onClick={() => applyQuickSearch(r)}
-                        >
-                          {r.zona}{r.dormitorios && ` · ${r.dormitorios} hab`}{r.banos && ` · ${r.banos} baños`}
-                          {(r.price_min || r.price_max) && ` · S/ ${r.price_min || 0}–${r.price_max || '∞'}`}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Formulario */}
             <form onSubmit={handleSearch} className="search-form" role="search">
               <div className="search-group">
@@ -231,7 +182,7 @@ export default function App() {
                   name="zona"
                   value={searchData.zona}
                   onChange={handleInputChange}
-                  placeholder="Ej: Miraflores, San Isidro, Barranco..."
+                  placeholder="Ej: Miraflores, San Isidro..."
                   required
                   className="search-input"
                 />
@@ -296,7 +247,7 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="search-group" style={{ gridColumn: '1 / -1' }}>
+              <div className="search-group">
                 <label htmlFor="palabras_clave">Palabras clave</label>
                 <input
                   type="text"

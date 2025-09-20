@@ -803,11 +803,11 @@ body {
 }
 
 /* =========================================
-   FONDO DE IMAGEN COMPLETO - OCUPA TODO EL ANCHO
+   FONDO DE IMAGEN COMPLETO - ESTILO URBANIA
 ========================================= */
 
 .search-section {
-  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
+  background-image: url('https://images.unsplash.com/photo-1522708323590-7982c5380f85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -829,29 +829,87 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
+  background-image: url('https://images.unsplash.com/photo-1522708323590-7982c5380f85?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
   background-size: cover;
   background-position: center;
   z-index: 1;
 }
 
-/* Buscador encima, blanco sólido */
+/* Buscador encima, estilo Urbania */
 .search-form-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 16px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   width: 90%;
-  max-width: 1200px;
+  max-width: 600px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .search-title {
   text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #00bfff;
+  color: #000;
+  background: none;
+  -webkit-text-fill-color: inherit;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.search-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.search-input, .search-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.search-input:focus, .search-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.price-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-btn {
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.search-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 123, 255, 0.4);
 }
