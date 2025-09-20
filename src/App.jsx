@@ -71,7 +71,7 @@ function App() {
     <div className="app">
       <header className="header">
         <div className="container">
-          <h1><Home size={32} /> Scraper de Alquileres</h1>
+          <h1><Home size={32} /> Scraper de Alquileres - Pruebas | Jeison</h1>
           <p>Encuentra el departamento perfecto en múltiples portales inmobiliarios</p>
         </div>
       </header>
