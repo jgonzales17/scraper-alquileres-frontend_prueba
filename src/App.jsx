@@ -338,121 +338,148 @@ export default function App() {
 
           {/* Resultados y paginación */}
           {results.length > 0 && (
-            <>
-              <div className="results-info">
-                <h3>✅ {total} propiedades encontradas</h3>
+          <>
+            <div className="results-info">
+              <div className="results-summary">
+                <span className="checkmark">✅</span>
+                <span>{total} propiedades encontradas</span>
                 <p>Mostrando {pagedResults.length} de {total} — Página {page} de {totalPages}</p>
               </div>
+            </div>
 
-              <div className="properties-grid" role="list">
-                {pagedResults.map((property) => (
-                  <article key={property.id} className="property-card" role="listitem">
-                    <div className="property-image">
-                      {property.imagen_url ? (
-                        <img
-                          src={property.imagen_url}
-                          alt={property.titulo || 'Imagen de propiedad'}
-                          loading="lazy"
-                          onError={(e) => {
-                            e.currentTarget.src = 'https://via.placeholder.com/360x220/f0f4f8/64748b?text=Sin+Imagen'
-                          }}
-                        />
-                      ) : (
-                        <div className="fallback-image">
-                          <Home size={48} />
-                        </div>
-                      )}
-                    </div>
-                    <div className="property-content">
-                      <h3 className="property-title">{property.titulo || 'Sin título'}</h3>
-                      <div className="property-price">{formatPrice(property.precio)}</div>
-                      <div className="property-details">
-                        <div className="detail-item">
-                          <Bed size={14} />
-                          {property.dormitorios || 'N/A'}
-                        </div>
-                        <div className="detail-item">
-                          <Bath size={14} />
-                          {property.baños || 'N/A'}
-                        </div>
-                        <div className="detail-item">
-                          <Square size={14} />
-                          {property.m2 || 'N/A'} m²
-                        </div>
-                      </div>
-                      {property.descripcion && (
-                        <p>{property.descripcion}</p>
-                      )}
-                      <div className="property-footer">
-                        <span>
-                          <Calendar size={12} /> {new Date(property.scraped_at).toLocaleDateString('es-ES')} • {property.fuente}
-                        </span>
-                        <a
-                          href={property.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="visit-button"
-                          aria-label={`Visitar propiedad: ${property.titulo}`}
-                        >
-                          <ExternalLink size={14} /> Ver
-                        </a>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
+            {/* Paginación arriba */}
+            {totalPages > 1 && (
+              <div className="pagination top-pagination">
+                {page > 1 && (
+                  <button
+                    className="page-btn"
+                    onClick={() => setPage(p => p - 1)}
+                    aria-label="Página anterior"
+                  >
+                    <ChevronLeft size={16} /> Anterior
+                  </button>
+                )}
 
-              {/* Paginación con botones numéricos */}
-              {totalPages > 1 && (
-                <div className="pagination">
-                  {/* Botón Anterior */}
-                  {page > 1 && (
+                <div className="page-numbers">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                     <button
-                      className="page-btn"
-                      onClick={() => setPage(p => p - 1)}
-                      aria-label="Página anterior"
+                      key={pageNum}
+                      className={`page-number ${pageNum === page ? 'active' : ''}`}
+                      onClick={() => setPage(pageNum)}
+                      aria-current={pageNum === page ? 'page' : undefined}
                     >
-                      <ChevronLeft size={16} /> Anterior
+                      {pageNum}
                     </button>
-                  )}
+                  ))}
+                </div>
 
-                  {/* Botones numéricos */}
-                  <div className="page-numbers">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                      <button
-                        key={pageNum}
-                        className={`page-number ${pageNum === page ? 'active' : ''}`}
-                        onClick={() => setPage(pageNum)}
-                        aria-current={pageNum === page ? 'page' : undefined}
-                      >
-                        {pageNum}
-                      </button>
-                    ))}
+                {page < totalPages && (
+                  <button
+                    className="page-btn"
+                    onClick={() => setPage(p => p + 1)}
+                    aria-label="Página siguiente"
+                  >
+                    Siguiente <ChevronRight size={16} />
+                  </button>
+                )}
+              </div>
+            )}
+
+            <div className="properties-grid" role="list">
+              {pagedResults.map((property) => (
+                <article key={property.id} className="property-card" role="listitem">
+                  <div className="property-image">
+                    {property.imagen_url ? (
+                      <img
+                        src={property.imagen_url}
+                        alt={property.titulo || 'Imagen de propiedad'}
+                        loading="lazy"
+                        onError={(e) => {
+                          e.currentTarget.src = 'https://via.placeholder.com/360x220/f0f4f8/64748b?text=Sin+Imagen'
+                        }}
+                      />
+                    ) : (
+                      <div className="fallback-image">
+                        <Home size={48} />
+                      </div>
+                    )}
                   </div>
+                  <div className="property-content">
+                    <h3 className="property-title">{property.titulo || 'Sin título'}</h3>
+                    <div className="property-price">{formatPrice(property.precio)}</div>
+                    <div className="property-details">
+                      <div className="detail-item">
+                        <Bed size={14} />
+                        {property.dormitorios || 'N/A'}
+                      </div>
+                      <div className="detail-item">
+                        <Bath size={14} />
+                        {property.baños || 'N/A'}
+                      </div>
+                      <div className="detail-item">
+                        <Square size={14} />
+                        {property.m2 || 'N/A'} m²
+                      </div>
+                    </div>
+                    {property.descripcion && <p>{property.descripcion}</p>}
+                    <div className="property-footer">
+                      <span>
+                        <Calendar size={12} /> {new Date(property.scraped_at).toLocaleDateString('es-ES')} • {property.fuente}
+                      </span>
+                      <a
+                        href={property.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="visit-button"
+                        aria-label={`Visitar propiedad: ${property.titulo}`}
+                      >
+                        <ExternalLink size={14} /> Ver
+                      </a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
 
-                  {/* Botón Siguiente */}
-                  {page < totalPages && (
+            {/* Paginación abajo */}
+            {totalPages > 1 && (
+              <div className="pagination bottom-pagination">
+                {page > 1 && (
+                  <button
+                    className="page-btn"
+                    onClick={() => setPage(p => p - 1)}
+                    aria-label="Página anterior"
+                  >
+                    <ChevronLeft size={16} /> Anterior
+                  </button>
+                )}
+
+                <div className="page-numbers">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                     <button
-                      className="page-btn"
-                      onClick={() => setPage(p => p + 1)}
-                      aria-label="Página siguiente"
+                      key={pageNum}
+                      className={`page-number ${pageNum === page ? 'active' : ''}`}
+                      onClick={() => setPage(pageNum)}
+                      aria-current={pageNum === page ? 'page' : undefined}
                     >
-                      Siguiente <ChevronRight size={16} />
+                      {pageNum}
                     </button>
-                  )}
+                  ))}
                 </div>
-              )}
 
-              {/* Información de resultados */}
-              <div className="results-info">
-                <div className="results-summary">
-                  <span className="checkmark">✅</span>
-                  <span>{total} propiedades encontradas</span>
-                  <p>Mostrando {pagedResults.length} de {total} — Página {page} de {totalPages}</p>
-                </div>
+                {page < totalPages && (
+                  <button
+                    className="page-btn"
+                    onClick={() => setPage(p => p + 1)}
+                    aria-label="Página siguiente"
+                  >
+                    Siguiente <ChevronRight size={16} />
+                  </button>
+                )}
               </div>
-            </>
-          )}
+            )}
+          </>
+        )}
         </section>
       </main>
 
