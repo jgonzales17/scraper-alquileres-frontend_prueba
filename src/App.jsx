@@ -321,7 +321,7 @@ export default function App() {
         {/* Sección de propiedades */}
         <section className="properties-section">
           <div className="section-header">
-            <h2 className="section-title">Propiedades Disponibles</h2>
+            <h2 className="section-title-sub">Propiedades Disponibles</h2>
             <select className="sort-options">
               <option>Ordenar por precio</option>
               <option>Precio: menor a mayor</option>
