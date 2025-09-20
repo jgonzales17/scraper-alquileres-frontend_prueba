@@ -803,10 +803,10 @@ body {
 }
 
 /* =========================================
-   SEARCH SECTION FULL - FONDO COMPLETO
+   FONDO DE IMAGEN COMPLETO - OCUPA TODO EL ANCHO
 ========================================= */
 
-.search-section-full {
+.search-section {
   background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
   background-size: cover;
   background-position: center;
@@ -821,7 +821,22 @@ body {
   overflow: hidden;
 }
 
-.search-container {
+/* Hacer que la imagen cubra todo el ancho */
+.search-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+/* Buscador encima, blanco sólido */
+.search-form-container {
   background-color: white;
   padding: 2rem;
   border-radius: 20px;
@@ -839,18 +854,4 @@ body {
   font-size: 2.5rem;
   font-weight: 700;
   color: #00bfff;
-}
-
-/* =========================================
-   PROPERTIES SECTION TITLE - BLANCO PURO
-========================================= */
-
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  text-shadow: none;
-  border: none;
-  background: none;
-  padding: 0;
 }

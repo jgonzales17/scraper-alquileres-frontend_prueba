@@ -168,9 +168,8 @@ export default function App() {
 
       <div className="container">
         {/* Sección de búsqueda con fondo degradado */}
-
-        <section className="search-section-full">
-          <div className="search-container">
+        <section className="search-section">
+          <div className="search-form-container">
             <h1 className="search-title">Encuentra tu hogar ideal</h1>
 
             {/* Búsquedas rápidas */}
