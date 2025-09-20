@@ -402,28 +402,55 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Paginación */}
+              {/* Paginación con botones numéricos */}
               {totalPages > 1 && (
                 <div className="pagination">
-                  <button
-                    className="page-btn"
-                    disabled={page <= 1}
-                    onClick={() => setPage(p => Math.max(1, p - 1))}
-                    aria-label="Página anterior"
-                  >
-                    <ChevronLeft size={16} /> Anterior
-                  </button>
-                  <span>Página {page} de {totalPages}</span>
-                  <button
-                    className="page-btn"
-                    disabled={page >= totalPages}
-                    onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                    aria-label="Página siguiente"
-                  >
-                    Siguiente <ChevronRight size={16} />
-                  </button>
+                  {/* Botón Anterior */}
+                  {page > 1 && (
+                    <button
+                      className="page-btn"
+                      onClick={() => setPage(p => p - 1)}
+                      aria-label="Página anterior"
+                    >
+                      <ChevronLeft size={16} /> Anterior
+                    </button>
+                  )}
+
+                  {/* Botones numéricos */}
+                  <div className="page-numbers">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                      <button
+                        key={pageNum}
+                        className={`page-number ${pageNum === page ? 'active' : ''}`}
+                        onClick={() => setPage(pageNum)}
+                        aria-current={pageNum === page ? 'page' : undefined}
+                      >
+                        {pageNum}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Botón Siguiente */}
+                  {page < totalPages && (
+                    <button
+                      className="page-btn"
+                      onClick={() => setPage(p => p + 1)}
+                      aria-label="Página siguiente"
+                    >
+                      Siguiente <ChevronRight size={16} />
+                    </button>
+                  )}
                 </div>
               )}
+
+              {/* Información de resultados */}
+              <div className="results-info">
+                <div className="results-summary">
+                  <span className="checkmark">✅</span>
+                  <span>{total} propiedades encontradas</span>
+                  <p>Mostrando {pagedResults.length} de {total} — Página {page} de {totalPages}</p>
+                </div>
+              </div>
             </>
           )}
         </section>
