@@ -18,8 +18,8 @@ const LS_KEY_RECENTS = 'scraper_recents_v1'
 export default function App() {
   const [searchData, setSearchData] = useState({
     zona: '',
-    dormitorios: '0',
-    banos: '0',
+    dormitorios: '',
+    banos: '',
     price_min: '',
     price_max: '',
     palabras_clave: ''
@@ -128,8 +128,8 @@ export default function App() {
     setSearchData(prev => ({
       ...prev,
       zona: payload.zona || '',
-      dormitorios: String(payload.dormitorios ?? '0'),
-      banos: String(payload.banos ?? '0'),
+      dormitorios: String(payload.dormitorios ?? ''),
+      banos: String(payload.banos ?? ''),
       price_min: payload.price_min || '',
       price_max: payload.price_max || '',
       palabras_clave: payload.palabras_clave || ''
@@ -142,34 +142,47 @@ export default function App() {
     try { localStorage.removeItem(LS_KEY_RECENTS) } catch {}
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <div className="app">
-      {/* Header mejorado */}
+      {/* Header moderno */}
       <header className="header">
         <div className="container">
-          <h1>
-            <Home size={28} />
-            Scraper de Alquileres | J
-          </h1>
-          <p>Encuentra tu departamento ideal en Miraflores, San Isidro, Surco y más — ¡comparando múltiples portales!</p>
+          <div className="header-content">
+            <div className="logo">
+              <Home size={28} /> RentHub
+            </div>
+            <nav>
+              <ul className="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#propiedades">Propiedades</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+              </ul>
+            </nav>
+          </div>
         </div>
       </header>
 
-      <main className="container">
+      <div className="container">
+        {/* Sección de búsqueda con fondo degradado */}
         <section className="search-section">
-          {/* Sección de búsquedas rápidas */}
+          <h1 className="search-title">Encuentra tu hogar ideal</h1>
+
+          {/* Búsquedas rápidas */}
           {(trending.length > 0 || recents.length > 0) && (
-            <section className="trending">
+            <section className="filters">
               {trending.length > 0 && (
                 <div className="trend-block">
-                  <h3><TrendingUp size={20} /> Búsquedas populares</h3>
+                  <h3 className="filter-title">Búsquedas populares</h3>
                   <div className="chip-wrap">
                     {trending.map((t, i) => (
                       <button
                         key={`t-${i}`}
-                        className="chip"
+                        className="filter-tag"
                         onClick={() => applyQuickSearch(t)}
-                        aria-label={`Buscar: ${t.zona || 'zona'}${t.dormitorios ? ` con ${t.dormitorios} dormitorios` : ''}`}
                       >
                         {t.zona}{t.dormitorios && ` · ${t.dormitorios} hab`}{t.banos && ` · ${t.banos} baños`}
                         {(t.price_min || t.price_max) && ` · S/ ${t.price_min || 0}–${t.price_max || '∞'}`}
@@ -182,11 +195,10 @@ export default function App() {
               {recents.length > 0 && (
                 <div className="trend-block">
                   <div className="trend-head">
-                    <h3><Clock size={20} /> Tus últimas búsquedas</h3>
+                    <h3 className="filter-title">Tus últimas búsquedas</h3>
                     <button
-                      className="chip clear"
+                      className="filter-tag clear"
                       onClick={clearRecents}
-                      aria-label="Limpiar historial de búsquedas"
                     >
                       <X size={14} /> Limpiar
                     </button>
@@ -195,11 +207,10 @@ export default function App() {
                     {recents.map((r, i) => (
                       <button
                         key={`r-${i}`}
-                        className="chip"
+                        className="filter-tag"
                         onClick={() => applyQuickSearch(r)}
-                        aria-label={`Repetir búsqueda: ${r.zona}`}
                       >
-                        {r.zona}{r.dormitorios !== '0' && ` · ${r.dormitorios} hab`}{r.banos !== '0' && ` · ${r.banos} baños`}
+                        {r.zona}{r.dormitorios && ` · ${r.dormitorios} hab`}{r.banos && ` · ${r.banos} baños`}
                         {(r.price_min || r.price_max) && ` · S/ ${r.price_min || 0}–${r.price_max || '∞'}`}
                       </button>
                     ))}
@@ -209,117 +220,119 @@ export default function App() {
             </section>
           )}
 
-          {/* Formulario principal */}
+          {/* Formulario de búsqueda */}
           <form onSubmit={handleSearch} className="search-form" role="search">
-            <div className="form-grid">
-              <div className="form-group">
-                <label htmlFor="zona">
-                  <Home size={16} /> Zona
-                </label>
-                <input
-                  type="text"
-                  id="zona"
-                  name="zona"
-                  value={searchData.zona}
-                  onChange={handleInputChange}
-                  placeholder="Ej: Miraflores, San Isidro, Surco..."
-                  required
-                  aria-required="true"
-                />
-              </div>
+            <div className="search-group">
+              <label htmlFor="zona">Zona</label>
+              <input
+                type="text"
+                id="zona"
+                name="zona"
+                value={searchData.zona}
+                onChange={handleInputChange}
+                placeholder="Ej: Miraflores, San Isidro, Barranco..."
+                required
+                className="search-input"
+              />
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="dormitorios">
-                  <Bed size={16} /> Dormitorios
-                </label>
-                <select
-                  id="dormitorios"
-                  name="dormitorios"
-                  value={searchData.dormitorios}
-                  onChange={handleInputChange}
-                >
-                  <option value="0">Cualquiera</option>
-                  <option value="1">1 dormitorio</option>
-                  <option value="2">2 dormitorios</option>
-                  <option value="3">3 dormitorios</option>
-                  <option value="4">4+ dormitorios</option>
-                </select>
-              </div>
+            <div className="search-group">
+              <label htmlFor="dormitorios">Dormitorios</label>
+              <select
+                id="dormitorios"
+                name="dormitorios"
+                value={searchData.dormitorios}
+                onChange={handleInputChange}
+                className="search-select"
+              >
+                <option value="">Cualquier cantidad</option>
+                <option value="1">1 dormitorio</option>
+                <option value="2">2 dormitorios</option>
+                <option value="3">3 dormitorios</option>
+                <option value="4">4+ dormitorios</option>
+              </select>
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="banos">
-                  <Bath size={16} /> Baños
-                </label>
-                <select
-                  id="banos"
-                  name="banos"
-                  value={searchData.banos}
-                  onChange={handleInputChange}
-                >
-                  <option value="0">Cualquiera</option>
-                  <option value="1">1 baño</option>
-                  <option value="2">2 baños</option>
-                  <option value="3">3+ baños</option>
-                </select>
-              </div>
+            <div className="search-group">
+              <label htmlFor="banos">Baños</label>
+              <select
+                id="banos"
+                name="banos"
+                value={searchData.banos}
+                onChange={handleInputChange}
+                className="search-select"
+              >
+                <option value="">Cualquier cantidad</option>
+                <option value="1">1 baño</option>
+                <option value="2">2 baños</option>
+                <option value="3">3+ baños</option>
+              </select>
+            </div>
 
-              <div className="form-group">
-                <label htmlFor="price_min">
-                  <TrendingUp size={16} /> Precio Mínimo (S/)
-                </label>
+            <div className="search-group">
+              <label>Precio (S/)</label>
+              <div className="price-group">
                 <input
                   type="number"
                   id="price_min"
                   name="price_min"
                   value={searchData.price_min}
                   onChange={handleInputChange}
-                  placeholder="0"
+                  placeholder="Mínimo"
                   min="0"
+                  className="search-input"
                 />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="price_max">
-                  <TrendingUp size={16} /> Precio Máximo (S/)
-                </label>
                 <input
                   type="number"
                   id="price_max"
                   name="price_max"
                   value={searchData.price_max}
                   onChange={handleInputChange}
-                  placeholder="5000"
+                  placeholder="Máximo"
                   min="0"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="palabras_clave">
-                  <Search size={16} /> Palabras clave
-                </label>
-                <input
-                  type="text"
-                  id="palabras_clave"
-                  name="palabras_clave"
-                  value={searchData.palabras_clave}
-                  onChange={handleInputChange}
-                  placeholder="Ej: piscina, amoblado, mascotas permitidas..."
+                  className="search-input"
                 />
               </div>
             </div>
 
+            <div className="search-group" style={{ gridColumn: '1 / -1' }}>
+              <label htmlFor="palabras_clave">Palabras clave</label>
+              <input
+                type="text"
+                id="palabras_clave"
+                name="palabras_clave"
+                value={searchData.palabras_clave}
+                onChange={handleInputChange}
+                placeholder="Ej: piscina, gimnasio, amoblado..."
+                className="search-input"
+              />
+            </div>
+
             <button
               type="submit"
-              className="search-button"
+              className="search-btn"
               disabled={loading || !searchData.zona.trim()}
-              aria-label="Buscar propiedades"
             >
-              <Search size={20} />
-              {loading ? 'Buscando...' : 'Buscar Propiedades'}
+              <Search size={20} /> {loading ? 'Buscando...' : 'Buscar Propiedades'}
             </button>
           </form>
+        </section>
 
-          {/* Feedback al usuario */}
+        {/* Sección de propiedades */}
+        <section className="properties-section">
+          <div className="section-header">
+            <h2 className="section-title">Propiedades Disponibles</h2>
+            {/* Puedes agregar un select de ordenar aquí si lo deseas */}
+          </div>
+
+          {/* Mensajes de estado */}
+          {loading && (
+            <div className="loading">
+              <div className="spinner"></div>
+              <div>Buscando propiedades...</div>
+            </div>
+          )}
+
           {error && (
             <div className="error" role="alert">
               <X size={20} />
@@ -327,67 +340,49 @@ export default function App() {
             </div>
           )}
 
-          {loading && <div className="loading">Buscando propiedades... Espere un momento</div>}
-
           {hasSearched && !loading && results.length === 0 && !error && (
-            <div className="results-info">
-              <h3>🔍 No se encontraron propiedades</h3>
-              <p>Prueba con otros filtros o una zona diferente</p>
+            <div className="no-results">
+              <h3>😔 No se encontraron propiedades</h3>
+              <p>Intenta ajustar tus criterios de búsqueda</p>
             </div>
           )}
 
-          {/* Resultados y paginación */}
-          {results.length > 0 && (
-          <>
-            <div className="results-info">
-              <div className="results-summary">
-                <span className="checkmark">✅</span>
-                <span>{total} propiedades encontradas</span>
-                <p>Mostrando {pagedResults.length} de {total} — Página {page} de {totalPages}</p>
+          {/* Paginación arriba */}
+          {results.length > 0 && totalPages > 1 && (
+            <div className="pagination" id="paginationTop">
+              <button
+                className="pagination-btn"
+                disabled={page <= 1}
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <div className="pagination-numbers">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+                  <button
+                    key={pageNum}
+                    className={`pagination-btn ${pageNum === page ? 'active' : ''}`}
+                    onClick={() => setPage(pageNum)}
+                  >
+                    {pageNum}
+                  </button>
+                ))}
               </div>
+              <button
+                className="pagination-btn"
+                disabled={page >= totalPages}
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
             </div>
+          )}
 
-            {/* Paginación arriba */}
-            {totalPages > 1 && (
-              <div className="pagination top-pagination">
-                {page > 1 && (
-                  <button
-                    className="page-btn"
-                    onClick={() => setPage(p => p - 1)}
-                    aria-label="Página anterior"
-                  >
-                    <ChevronLeft size={16} /> Anterior
-                  </button>
-                )}
-
-                <div className="page-numbers">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                    <button
-                      key={pageNum}
-                      className={`page-number ${pageNum === page ? 'active' : ''}`}
-                      onClick={() => setPage(pageNum)}
-                      aria-current={pageNum === page ? 'page' : undefined}
-                    >
-                      {pageNum}
-                    </button>
-                  ))}
-                </div>
-
-                {page < totalPages && (
-                  <button
-                    className="page-btn"
-                    onClick={() => setPage(p => p + 1)}
-                    aria-label="Página siguiente"
-                  >
-                    Siguiente <ChevronRight size={16} />
-                  </button>
-                )}
-              </div>
-            )}
-
-            <div className="properties-grid" role="list">
+          {/* Grid de propiedades */}
+          {results.length > 0 && (
+            <div className="properties-grid" id="propertiesGrid">
               {pagedResults.map((property) => (
-                <article key={property.id} className="property-card" role="listitem">
+                <div key={property.id} className="property-card" data-category="nuevo">
                   <div className="property-image">
                     {property.imagen_url ? (
                       <img
@@ -395,98 +390,151 @@ export default function App() {
                         alt={property.titulo || 'Imagen de propiedad'}
                         loading="lazy"
                         onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/360x220/f0f4f8/64748b?text=Sin+Imagen'
+                          e.currentTarget.src = 'https://via.placeholder.com/350x250/f0f4f8/64748b?text=Sin+Imagen'
                         }}
                       />
                     ) : (
-                      <div className="fallback-image">
+                      <div className="image-placeholder">
                         <Home size={48} />
                       </div>
                     )}
                   </div>
                   <div className="property-content">
-                    <h3 className="property-title">{property.titulo || 'Sin título'}</h3>
                     <div className="property-price">{formatPrice(property.precio)}</div>
-                    <div className="property-details">
-                      <div className="detail-item">
-                        <Bed size={14} />
-                        {property.dormitorios || 'N/A'}
+                    <div className="property-title">{property.titulo || 'Sin título'}</div>
+                    <div className="property-location">
+                      <Calendar size={14} /> {new Date(property.scraped_at).toLocaleDateString('es-ES')} • {property.fuente}
+                    </div>
+                    <div className="property-features">
+                      <div className="feature">
+                        <Bed size={14} /> {property.dormitorios || 'N/A'}
                       </div>
-                      <div className="detail-item">
-                        <Bath size={14} />
-                        {property.baños || 'N/A'}
+                      <div className="feature">
+                        <Bath size={14} /> {property.baños || 'N/A'}
                       </div>
-                      <div className="detail-item">
-                        <Square size={14} />
-                        {property.m2 || 'N/A'} m²
+                      <div className="feature">
+                        <Square size={14} /> {property.m2 || 'N/A'}m²
                       </div>
                     </div>
-                    {property.descripcion && <p>{property.descripcion}</p>}
-                    <div className="property-footer">
-                      <span>
-                        <Calendar size={12} /> {new Date(property.scraped_at).toLocaleDateString('es-ES')} • {property.fuente}
-                      </span>
+                    {property.descripcion && (
+                      <div className="property-description">
+                        {property.descripcion.length > 100 
+                          ? property.descripcion.substring(0, 100) + '...'
+                          : property.descripcion}
+                      </div>
+                    )}
+                    <div className="property-actions">
                       <a
                         href={property.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="visit-button"
-                        aria-label={`Visitar propiedad: ${property.titulo}`}
+                        className="btn btn-primary"
                       >
-                        <ExternalLink size={14} /> Ver
+                        <ExternalLink size={14} /> Contactar
+                      </a>
+                      <a
+                        href={property.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-secondary"
+                      >
+                        Ver más
                       </a>
                     </div>
                   </div>
-                </article>
+                </div>
               ))}
             </div>
+          )}
 
-            {/* Paginación abajo */}
-            {totalPages > 1 && (
-              <div className="pagination bottom-pagination">
-                {page > 1 && (
+          {/* Paginación abajo */}
+          {results.length > 0 && totalPages > 1 && (
+            <div className="pagination" id="paginationBottom">
+              <button
+                className="pagination-btn"
+                disabled={page <= 1}
+                onClick={() => setPage(p => Math.max(1, p - 1))}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <div className="pagination-numbers">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                   <button
-                    className="page-btn"
-                    onClick={() => setPage(p => p - 1)}
-                    aria-label="Página anterior"
+                    key={pageNum}
+                    className={`pagination-btn ${pageNum === page ? 'active' : ''}`}
+                    onClick={() => setPage(pageNum)}
                   >
-                    <ChevronLeft size={16} /> Anterior
+                    {pageNum}
                   </button>
-                )}
-
-                <div className="page-numbers">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                    <button
-                      key={pageNum}
-                      className={`page-number ${pageNum === page ? 'active' : ''}`}
-                      onClick={() => setPage(pageNum)}
-                      aria-current={pageNum === page ? 'page' : undefined}
-                    >
-                      {pageNum}
-                    </button>
-                  ))}
-                </div>
-
-                {page < totalPages && (
-                  <button
-                    className="page-btn"
-                    onClick={() => setPage(p => p + 1)}
-                    aria-label="Página siguiente"
-                  >
-                    Siguiente <ChevronRight size={16} />
-                  </button>
-                )}
+                ))}
               </div>
-            )}
-          </>
-        )}
+              <button
+                className="pagination-btn"
+                disabled={page >= totalPages}
+                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
         </section>
-      </main>
+      </div>
 
-      <footer className="footer" role="contentinfo">
+      {/* Botón flotante para volver arriba */}
+      <button className="fab" onClick={scrollToTop} title="Volver arriba">
+        ↑
+      </button>
+
+      {/* Footer moderno */}
+      <footer className="footer">
         <div className="container">
-          <p>© {new Date().getFullYear()} Scraper de Alquileres — Encuentra tu próximo hogar</p>
-          <p>Datos obtenidos de múltiples portales inmobiliarios. Actualizado diariamente.</p>
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3><Home size={24} /> RentHub</h3>
+              <p>Tu plataforma confiable para encontrar el hogar perfecto. Conectamos inquilinos con propietarios de manera segura y eficiente.</p>
+              <div className="social-icons">
+                <a href="#" className="social-icon" title="Facebook">📘</a>
+                <a href="#" className="social-icon" title="Instagram">📷</a>
+                <a href="#" className="social-icon" title="Twitter">🐦</a>
+                <a href="#" className="social-icon" title="LinkedIn">💼</a>
+                <a href="#" className="social-icon" title="WhatsApp">💬</a>
+              </div>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Enlaces Rápidos</h3>
+              <ul className="footer-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#propiedades">Ver Propiedades</a></li>
+                <li><a href="#publicar">Publicar Propiedad</a></li>
+                <li><a href="#servicios">Nuestros Servicios</a></li>
+                <li><a href="#blog">Blog y Consejos</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Soporte</h3>
+              <ul className="footer-links">
+                <li><a href="#ayuda">Centro de Ayuda</a></li>
+                <li><a href="#contacto">Contáctanos</a></li>
+                <li><a href="#terminos">Términos y Condiciones</a></li>
+                <li><a href="#privacidad">Política de Privacidad</a></li>
+                <li><a href="#seguridad">Seguridad</a></li>
+              </ul>
+            </div>
+            
+            <div className="footer-section">
+              <h3>Contacto</h3>
+              <p>📧 info@renthub.pe</p>
+              <p>📞 +51 1 234-5678</p>
+              <p>📍 Av. Javier Prado Este 123<br />San Isidro, Lima - Perú</p>
+              <p>🕒 Atención: Lun - Vie 9:00 - 18:00</p>
+            </div>
+          </div>
+          
+          <div className="footer-bottom">
+            <p>&copy; {new Date().getFullYear()} RentHub Perú. Todos los derechos reservados. | Hecho con ❤️ para encontrar tu hogar ideal.</p>
+          </div>
         </div>
       </footer>
     </div>
