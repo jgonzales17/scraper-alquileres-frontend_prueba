@@ -14,7 +14,7 @@ body {
   color: #2c3e50;
   background: linear-gradient(135deg, #4facfe 0%, #00f2fe 30%, #43e97b 70%, #38f9d7 100%);
   min-height: 100vh;
-  padding-top: 80px; /* Para el header sticky */
+  padding-top: 80px;
 }
 
 .app {
@@ -38,10 +38,8 @@ body {
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
 }
 
@@ -80,7 +78,35 @@ body {
   color: #4facfe;
 }
 
+/* =========================================
+   SEARCH SECTION
+========================================= */
 
+.search-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  margin: 2rem auto;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.search-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('https://st2.depositphotos.com/1000128/6158/i/450/depositphotos_61589097-stock-photo-modern-real-estate.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.15;
+  z-index: -1;
+}
 
 .search-title {
   text-align: center;
@@ -133,12 +159,6 @@ body {
   gap: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .price-group {
-    flex-direction: column;
-  }
-}
-
 .search-btn {
   grid-column: 1 / -1;
   background: linear-gradient(45deg, #4facfe, #00f2fe);
@@ -150,7 +170,6 @@ body {
   border-radius: 12px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  margin-top: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -655,9 +674,17 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .price-group {
+    flex-direction: column;
+  }
+
   .properties-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .property-card {
+    margin: 0 10px;
   }
 
   .search-title {
@@ -684,10 +711,6 @@ body {
     font-size: 0.8rem;
   }
 
-  .property-card {
-    margin: 0 10px;
-  }
-
   .fab {
     bottom: 1rem;
     right: 1rem;
@@ -702,6 +725,11 @@ body {
     padding: 0 10px;
   }
 
+  .search-section {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border-radius: 15px;
+  }
 
   .search-title {
     font-size: 1.5rem;
@@ -748,161 +776,3 @@ body {
 .property-card:nth-child(4) { animation-delay: 0.4s; }
 .property-card:nth-child(5) { animation-delay: 0.5s; }
 .property-card:nth-child(6) { animation-delay: 0.6s; }
-
-
-
-.search-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 10;
-}
-
-.search-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #00bfff;
-  background: none;
-  -webkit-text-fill-color: inherit;
-}
-
-.filters {
-  margin-bottom: 1.5rem;
-}
-
-/* =========================================
-   PROPERTIES SECTION TITLE
-========================================= */
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  background: none;
-  -webkit-text-fill-color: white;
-  border: 2px solid black;
-  padding: 0.2rem 0.8rem;
-  border-radius: 12px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* =========================================
-   SEARCH SECTION - SIN IMAGEN, ANCHO 80%
-========================================= */
-
-.search-section {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 30%, #43e97b 70%, #38f9d7 100%);
-  height: 600px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 80px;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-
-.search-form-container {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  width: 80%; /* Ancho del buscador */
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-  border: 1px solid #e1e8ed;
-}
-
-.search-title {
-  text-align: center;
-  margin-bottom: 2rem;
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: #000;
-}
-
-.search-form {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-}
-
-.search-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.search-input, .search-select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e1e8ed;
-  border-radius: 12px;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  background: white;
-}
-
-.search-input:focus, .search-select:focus {
-  outline: none;
-  border-color: #4facfe;
-  box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-}
-
-.price-group {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.search-btn {
-  background: linear-gradient(45deg, #4facfe, #00f2fe);
-  color: white;
-  border: none;
-  padding: 1rem 2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.search-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
-}
-
-/* =========================================
-   PROPERTIES SECTION TITLE - BLANCO PURO
-========================================= */
-
-.section-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: white;
-  text-shadow: none;
-  border: none;
-  background: none;
-  padding: 0;
-}
