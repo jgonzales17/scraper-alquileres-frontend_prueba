@@ -8,6 +8,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
+    background: #f8fafc;
 }
 
 /* Header */
@@ -127,11 +128,18 @@ nav {
     font-size: 1rem;
     font-weight: bold;
     transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
 }
 
 .search-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.search-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .filters {
@@ -174,7 +182,7 @@ nav {
 }
 
 .price-range input {
-    flex: 1;
+    width: 120px;
 }
 
 /* Pagination Styles */
@@ -185,6 +193,7 @@ nav {
     gap: 0.5rem;
     margin: 2rem 0;
     padding: 1rem;
+    flex-wrap: wrap;
 }
 
 .pagination-btn {
@@ -228,13 +237,6 @@ nav {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-}
-
-.pagination-btn:disabled:hover {
-    transform: none;
-    background: white;
-    border-color: #e1e5e9;
-    color: #4a5568;
 }
 
 /* Featured Properties */
@@ -285,6 +287,11 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.property-card:hover .property-image img {
+    transform: scale(1.05);
 }
 
 .property-image .placeholder {
@@ -296,66 +303,98 @@ nav {
     opacity: 0.3;
 }
 
-.property-info {
+.property-content {
     padding: 1.5rem;
-}
-
-.property-price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #667eea;
-    margin-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .property-title {
     font-size: 1.2rem;
-    font-weight: 600;
+    font-weight: 700;
+    color: #0f172a;
     margin-bottom: 0.5rem;
-    color: #2d3748;
+    line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-.property-location {
-    color: #718096;
+.property-price {
+    font-size: 1.5rem;
+    font-weight: 800;
     margin-bottom: 1rem;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
 }
 
-.property-features {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    font-size: 0.9rem;
-    color: #4a5568;
-    margin-bottom: 1rem;
+.property-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
 }
 
-.feature {
+.detail-item {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
-}
-
-.details-btn {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
+    justify-content: center;
+    gap: 0.4rem;
+    color: #334155;
     font-weight: 600;
-    transition: transform 0.3s, box-shadow 0.3s;
-    width: 100%;
-    text-decoration: none;
-    text-align: center;
+    font-size: 0.9rem;
 }
 
-.details-btn:hover {
+.property-content p {
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0.5rem 0 1.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.95rem;
+}
+
+.property-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.visit-button {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: var(--transition);
+    box-shadow: 0 3px 10px rgba(99, 102, 241, 0.2);
+}
+
+.visit-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
 }
 
 /* Background Hotel Image Section */
@@ -431,7 +470,7 @@ footer {
     color: #a0aec0;
 }
 
-/* Error and Loading States */
+/* Status Messages */
 .error-container {
     padding: 2rem;
     text-align: center;
@@ -479,6 +518,7 @@ footer {
 
     .price-range {
         flex-direction: column;
+        gap: 0.5rem;
     }
 
     .nav-links {

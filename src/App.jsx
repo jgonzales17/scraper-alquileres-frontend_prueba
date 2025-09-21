@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import './index.css';
 
@@ -15,8 +15,8 @@ const PAGE_SIZE = 9;
 export default function App() {
   const [searchData, setSearchData] = useState({
     zona: '',
-    dormitorios: '',
-    banos: '',
+    dormitorios: '0',
+    banos: '0',
     price_min: '',
     price_max: '',
     palabras_clave: ''
@@ -33,7 +33,7 @@ export default function App() {
   };
 
   const handleSearch = async (e) => {
-    e.preventDefault();
+    e?.preventDefault?.();
     if (!searchData.zona.trim()) {
       alert('Por favor ingresa una ubicación para buscar');
       return;
@@ -70,17 +70,21 @@ export default function App() {
   };
 
   const totalPages = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
-  const pagedResults = results.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const pagedResults = useMemo(() => {
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+    return results.slice(start, end);
+  }, [results, page]);
+
+  const formatPrice = (price) => {
+    if (!price) return 'Precio no disponible';
+    return price.toString().replace('S/', 'S/ ').replace('S/.', 'S/ ');
+  };
 
   const goToPage = (pageNum) => {
     if (pageNum >= 1 && pageNum <= totalPages) {
       setPage(pageNum);
     }
-  };
-
-  const formatPrice = (price) => {
-    if (!price) return 'Precio no disponible';
-    return price.toString().replace('S/', 'S/ ').replace('S/.', 'S/ ');
   };
 
   return (
@@ -156,26 +160,26 @@ export default function App() {
             
             <div className="filter-group">
               <label>Rango de precio (S/)</label>
-                <div className="price-range">
-                  <input 
-                      type="number" 
-                      placeholder="Precio mín." 
-                      min="0" 
-                      name="price_min" 
-                      value={searchData.price_min} 
-                      onChange={handleInputChange}
-                      style={{ width: '120px' }}
-                  />
-                  <span>-</span>
-                  <input 
-                      type="number" 
-                      placeholder="Precio máx." 
-                      min="0" 
-                      name="price_max" 
-                      value={searchData.price_max} 
-                      onChange={handleInputChange}
-                      style={{ width: '120px' }}
-                  />
+              <div className="price-range">
+                <input
+                  type="number"
+                  placeholder="Precio mín."
+                  min="0"
+                  name="price_min"
+                  value={searchData.price_min}
+                  onChange={handleInputChange}
+                  style={{ width: '120px' }}
+                />
+                <span>-</span>
+                <input
+                  type="number"
+                  placeholder="Precio máx."
+                  min="0"
+                  name="price_max"
+                  value={searchData.price_max}
+                  onChange={handleInputChange}
+                  style={{ width: '120px' }}
+                />
               </div>
             </div>
             
@@ -200,14 +204,14 @@ export default function App() {
         </div>
       )}
 
-      <section className="featured">
-        <div className="container">
-          <h2 className="section-title">Propiedades Encontradas</h2>
-          
-          {loading && <div className="loading">Buscando propiedades... Espere un momento</div>}
+      {loading && <div className="loading">Buscando propiedades... Espere un momento</div>}
 
-          {results.length > 0 && (
-            <>
+      {results.length > 0 && (
+        <>
+          <section className="featured">
+            <div className="container">
+              <h2 className="section-title">Propiedades Encontradas</h2>
+              
               {/* Paginación Superior */}
               <div className="pagination">
                 <button
@@ -251,22 +255,34 @@ export default function App() {
                         <div className="placeholder">🏢</div>
                       )}
                     </div>
-                    <div className="property-info">
+                    <div className="property-content">
                       <h3 className="property-title">{property.titulo || 'Sin título'}</h3>
                       <div className="property-price">{formatPrice(property.precio)}</div>
-                      <div className="property-features">
-                        <span className="feature">🛏️ {property.dormitorios || 'N/A'} dorm.</span>
-                        <span className="feature">🚿 {property.baños || 'N/A'} baños</span>
-                        <span className="feature">📏 {property.m2 || 'N/A'}</span>
+                      <div className="property-details">
+                        <div className="detail-item">
+                          <span>🛏️</span> {property.dormitorios || 'N/A'}
+                        </div>
+                        <div className="detail-item">
+                          <span>🚿</span> {property.baños || 'N/A'}
+                        </div>
+                        <div className="detail-item">
+                          <span>📏</span> {property.m2 || 'N/A'}
+                        </div>
                       </div>
-                      <a
-                        href={property.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="details-btn"
-                      >
-                        Ver detalles
-                      </a>
+                      <p>{property.descripcion}</p>
+                      <div className="property-footer">
+                        <span>
+                          <span>📅</span> {new Date(property.scraped_at).toLocaleDateString('es-ES')} • {property.fuente}
+                        </span>
+                        <a
+                          href={property.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="visit-button"
+                        >
+                          Ver detalles
+                        </a>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -300,17 +316,17 @@ export default function App() {
                   Siguiente →
                 </button>
               </div>
-            </>
-          )}
-
-          {results.length === 0 && !loading && !error && (
-            <div className="no-results">
-              <h3>🔍 No se encontraron propiedades</h3>
-              <p>Prueba con otros filtros o una zona diferente</p>
             </div>
-          )}
+          </section>
+        </>
+      )}
+
+      {results.length === 0 && !loading && !error && (
+        <div className="no-results">
+          <h3>🔍 No se encontraron propiedades</h3>
+          <p>Prueba con otros filtros o una zona diferente</p>
         </div>
-      </section>
+      )}
 
       <section className="hotel-background">
         <div className="hotel-content">
@@ -361,7 +377,7 @@ export default function App() {
         </div>
         
         <div className="footer-bottom">
-          <p>&copy; 2024 RentHome. Todos los derechos reservados. | Términos y Condiciones | Política de Privacidad</p>
+          <p>&copy; {new Date().getFullYear()} RentHome. Todos los derechos reservados. | Términos y Condiciones | Política de Privacidad</p>
         </div>
       </footer>
     </div>
