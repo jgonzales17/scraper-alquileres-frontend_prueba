@@ -108,97 +108,100 @@ export default function App() {
         <div className="hero-content">
           <h1>Encuentra tu hogar ideal</h1>
           <p>Descubre los mejores departamentos para alquilar en la ciudad</p>
+          <div className="search-container">
+            <form className="search-form" onSubmit={handleSearch}>
+              <div className="search-main">
+                <input
+                  type="text"
+                  className="location-input"
+                  placeholder="¿Dónde quieres vivir? Ej: San Isidro, Miraflores, Surco..."
+                  name="zona"
+                  value={searchData.zona}
+                  onChange={handleInputChange}
+                />
+                <button type="submit" className="search-btn">
+                  {loading ? 'Buscando...' : 'Buscar'}
+                </button>
+              </div>
+              
+              <div className="filters">
+                <div className="filter-group">
+                  <label htmlFor="dormitorios">Dormitorios</label>
+                  <select
+                    id="dormitorios"
+                    name="dormitorios"
+                    value={searchData.dormitorios}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Cualquiera</option>
+                    <option value="1">1 dormitorio</option>
+                    <option value="2">2 dormitorios</option>
+                    <option value="3">3 dormitorios</option>
+                    <option value="4">4+ dormitorios</option>
+                  </select>
+                </div>
+                
+                <div className="filter-group">
+                  <label htmlFor="banos">Baños</label>
+                  <select
+                    id="banos"
+                    name="banos"
+                    value={searchData.banos}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Cualquiera</option>
+                    <option value="1">1 baño</option>
+                    <option value="2">2 baños</option>
+                    <option value="3">3 baños</option>
+                    <option value="4">4+ baños</option>
+                  </select>
+                </div>
+                
+                <div className="filter-group">
+                  <label>Rango de precio (S/)</label>
+                  <div className="price-range">
+                    <input
+                      type="number"
+                      placeholder="Precio mín."
+                      min="0"
+                      name="price_min"
+                      value={searchData.price_min}
+                      onChange={handleInputChange}
+                      style={{ width: '120px' }}
+                    />
+                    <span>-</span>
+                    <input
+                      type="number"
+                      placeholder="Precio máx."
+                      min="0"
+                      name="price_max"
+                      value={searchData.price_max}
+                      onChange={handleInputChange}
+                      style={{ width: '120px' }}
+                    />
+                  </div>
+                </div>
+                
+                <div className="filter-group">
+                  <label htmlFor="caracteristicas">Características especiales</label>
+                  <input
+                    type="text"
+                    id="caracteristicas"
+                    name="palabras_clave"
+                    placeholder="Ej: amoblado, cochera, terraza..."
+                    value={searchData.palabras_clave}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+
+
         </div>
       </section>
 
-      <div className="search-container">
-        <form className="search-form" onSubmit={handleSearch}>
-          <div className="search-main">
-            <input
-              type="text"
-              className="location-input"
-              placeholder="¿Dónde quieres vivir? Ej: San Isidro, Miraflores, Surco..."
-              name="zona"
-              value={searchData.zona}
-              onChange={handleInputChange}
-            />
-            <button type="submit" className="search-btn">
-              {loading ? 'Buscando...' : 'Buscar'}
-            </button>
-          </div>
-          
-          <div className="filters">
-            <div className="filter-group">
-              <label htmlFor="dormitorios">Dormitorios</label>
-              <select
-                id="dormitorios"
-                name="dormitorios"
-                value={searchData.dormitorios}
-                onChange={handleInputChange}
-              >
-                <option value="">Cualquiera</option>
-                <option value="1">1 dormitorio</option>
-                <option value="2">2 dormitorios</option>
-                <option value="3">3 dormitorios</option>
-                <option value="4">4+ dormitorios</option>
-              </select>
-            </div>
-            
-            <div className="filter-group">
-              <label htmlFor="banos">Baños</label>
-              <select
-                id="banos"
-                name="banos"
-                value={searchData.banos}
-                onChange={handleInputChange}
-              >
-                <option value="">Cualquiera</option>
-                <option value="1">1 baño</option>
-                <option value="2">2 baños</option>
-                <option value="3">3 baños</option>
-                <option value="4">4+ baños</option>
-              </select>
-            </div>
-            
-            <div className="filter-group">
-              <label>Rango de precio (S/)</label>
-              <div className="price-range">
-                <input
-                  type="number"
-                  placeholder="Precio mín."
-                  min="0"
-                  name="price_min"
-                  value={searchData.price_min}
-                  onChange={handleInputChange}
-                  style={{ width: '120px' }}
-                />
-                <span>-</span>
-                <input
-                  type="number"
-                  placeholder="Precio máx."
-                  min="0"
-                  name="price_max"
-                  value={searchData.price_max}
-                  onChange={handleInputChange}
-                  style={{ width: '120px' }}
-                />
-              </div>
-            </div>
-            
-            <div className="filter-group">
-              <label htmlFor="caracteristicas">Características especiales</label>
-              <input
-                type="text"
-                id="caracteristicas"
-                name="palabras_clave"
-                placeholder="Ej: amoblado, cochera, terraza..."
-                value={searchData.palabras_clave}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-        </form>
-      </div>
+      
 
       {error && (
         <div className="error-container">
