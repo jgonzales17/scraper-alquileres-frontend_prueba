@@ -34,10 +34,8 @@ export default function App() {
 
   const handleSearch = async (e) => {
     e?.preventDefault?.();
-    if (!searchData.zona.trim()) {
-      alert('Por favor ingresa una ubicación para buscar');
-      return;
-    }
+    // No requerimos que la zona esté llena
+    // Si está vacía, el backend usará "Lima" por defecto
 
     setLoading(true);
     setError('');
@@ -87,6 +85,11 @@ export default function App() {
     }
   };
 
+  // Ejecutar búsqueda automática al cargar la página
+  useEffect(() => {
+    handleSearch();
+  }, []);
+
   return (
     <div className="app">
       <header>
@@ -118,7 +121,6 @@ export default function App() {
               name="zona"
               value={searchData.zona}
               onChange={handleInputChange}
-              required
             />
             <button type="submit" className="search-btn">
               {loading ? 'Buscando...' : 'Buscar'}
