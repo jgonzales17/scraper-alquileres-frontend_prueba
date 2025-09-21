@@ -156,24 +156,26 @@ export default function App() {
             
             <div className="filter-group">
               <label>Rango de precio (S/)</label>
-              <div className="price-range">
-                <input
-                  type="number"
-                  placeholder="Precio mín."
-                  min="0"
-                  name="price_min"
-                  value={searchData.price_min}
-                  onChange={handleInputChange}
-                />
-                <span>-</span>
-                <input
-                  type="number"
-                  placeholder="Precio máx."
-                  min="0"
-                  name="price_max"
-                  value={searchData.price_max}
-                  onChange={handleInputChange}
-                />
+                <div className="price-range">
+                  <input 
+                      type="number" 
+                      placeholder="Precio mín." 
+                      min="0" 
+                      name="price_min" 
+                      value={searchData.price_min} 
+                      onChange={handleInputChange}
+                      style={{ width: '120px' }}
+                  />
+                  <span>-</span>
+                  <input 
+                      type="number" 
+                      placeholder="Precio máx." 
+                      min="0" 
+                      name="price_max" 
+                      value={searchData.price_max} 
+                      onChange={handleInputChange}
+                      style={{ width: '120px' }}
+                  />
               </div>
             </div>
             
