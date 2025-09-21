@@ -51,6 +51,7 @@ nav {
     opacity: 0.8;
 }
 
+
 /* Hero Section */
 .hero {
     background: linear-gradient(rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8)), url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%23f0f2f5" width="1200" height="800"/><g fill="%23667eea" opacity="0.1"><circle cx="200" cy="200" r="100"/><circle cx="800" cy="300" r="150"/><circle cx="1000" cy="600" r="120"/><rect x="100" y="500" width="200" height="150" rx="10"/><rect x="600" y="100" width="300" height="200" rx="15"/></g></svg>');
@@ -68,7 +69,52 @@ nav {
 .hero-content {
     max-width: 1600px;
     margin: 0 auto;
+    padding: 0 2rem; /* Añade padding para que no toque los bordes */
 }
+
+/* Search Section */
+.search-container {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px; /* Aumenta el ancho máximo */
+    width: 90%; /* Hazlo más ancho en pantallas pequeñas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(-50px);
+}
+/* Asegúrate de que el formulario ocupe todo el ancho del contenedor */
+.search-form {
+    width: 100%;
+}
+
+/* Asegúrate de que los inputs y selects ocupen todo el ancho de sus contenedores */
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Asegúrate de que el rango de precio esté bien alineado */
+.price-range {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+}
+
+.price-range input {
+    flex: 1;
+    box-sizing: border-box;
+}
+
+/* Si quieres que el botón de búsqueda sea más grande */
+.search-btn {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+}
+
+
 
 .hero h1 {
     font-size: 3.5rem;
@@ -82,21 +128,7 @@ nav {
     opacity: 0.9;
 }
 
-/* Search Section */
-.search-container {
-    background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    margin: 2rem auto;
-    max-width: 1200px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transform: translateY(-50px);
-}
 
-.search-form {
-    display: grid;
-    gap: 1.5rem;
-}
 
 .search-main {
     display: flex;
